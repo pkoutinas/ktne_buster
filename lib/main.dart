@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
+import 'helper.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(
-        primaryColor: Colors.black,
+        // ignore: undefined_getter
+        canvasColor: Colors.black,
+        fontFamily: 'Elite',
       ),
-      home: new MyHomePage(),
+      home: new SplashScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+class SplashScreen extends StatefulWidget {
+  SplashScreen({Key key}) : super(key: key);
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _SplashScreenState createState() => new _SplashScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body:
-      new Row(
+      body: new Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,15 +39,72 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   new Image.asset(
                     'images/logo.png',
-                    fit:BoxFit.fill,
-                  )
-                ]
+                    fit: BoxFit.fill,
+                  ),
+                  new RaisedButton(
+                      key: null,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CentralScreen()),
+                        );
+                      },
+                      padding: const EdgeInsets.all(32.0),
+                      color: const Color(0xFF000000),
+                      child: new Text(
+                        "START",
+                        style: new TextStyle(
+                            fontSize: 40.0,
+                            color: const Color(0xFFfc0000),
+                            fontWeight: FontWeight.w200,
+                            fontFamily: "Elite"),
+                      )),
+                ])
+          ]),
+    );
+  }
+}
 
-            )
-          ]
-
+class CentralScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("KTNE Buster"),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+        ),
+      body: new Column(
+        children: <Widget>[
+          Center(
+        child: RaisedButton(
+          child: Text('Config'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ConfigScreen()),
+            );
+          },
+        ),
       ),
+    ])
+    );
+  }
+}
 
+class ConfigScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Configuration"),
+      ),
+        body: ListView(
+         children: [
+           new PlusMinusWidget('Modules: ',5),
+           new PlusMinusWidget('Batteries: ',0)
+         ]),
     );
   }
 }
