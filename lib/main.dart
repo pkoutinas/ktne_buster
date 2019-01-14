@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'Configurator.dart';
+import 'ConfigScreen.dart';
 import 'helper.dart';
 
 void main() => runApp(MyApp());
@@ -17,13 +19,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SplashScreen extends StatefulWidget {
-  SplashScreen({Key key}) : super(key: key);
-  @override
-  _SplashScreenState createState() => new _SplashScreenState();
-}
+class SplashScreen extends StatelessWidget {
 
-class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -47,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CentralScreen()),
+                              builder: (context) => CentralScreen(config: new Configurator())),
                         );
                       },
                       padding: const EdgeInsets.all(32.0),
@@ -67,6 +64,11 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 class CentralScreen extends StatelessWidget {
+
+   final Configurator config;
+   // ignore: final_initialized_in_declaration_and_constructor
+   CentralScreen({Key key, @required this.config}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +85,7 @@ class CentralScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ConfigScreen()),
+              MaterialPageRoute(builder: (context) => ConfigScreen(config: this.config)),
             );
           },
         ),
@@ -93,18 +95,3 @@ class CentralScreen extends StatelessWidget {
   }
 }
 
-class ConfigScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Configuration"),
-      ),
-        body: ListView(
-         children: [
-           new PlusMinusWidget('Modules: ',5),
-           new PlusMinusWidget('Batteries: ',0)
-         ]),
-    );
-  }
-}
