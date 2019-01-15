@@ -1,39 +1,29 @@
 import 'package:flutter/material.dart';
 
 class PlusMinusWidget extends StatefulWidget {
-  int _defaultValue;
-  var _name;
 
-  PlusMinusWidget(var name , int defaultValue){
-    this._name = name;
-    this._defaultValue = defaultValue;
-  }
+  final String name;
+  final int defaultValue;
+  final ValueChanged<int> onChanged;
 
-  @override
-  _PlusMinusWidgetState createState() => _PlusMinusWidgetState(_name,_defaultValue);
+  PlusMinusWidget({Key key, @required this.name , @required  this.defaultValue,@required this.onChanged})
+      : super(key: key);
+
+  _PlusMinusWidgetState createState() => _PlusMinusWidgetState();
 }
 
 class _PlusMinusWidgetState extends State<PlusMinusWidget> {
-  var _label ;
-  int _count ;
 
-  _PlusMinusWidgetState(var name , int defaultValue){
-    this._label = name;
-    this._count = defaultValue;
-  }
+  _PlusMinusWidgetState();
 
   void _increaseCount() {
-    setState(() {
-      _count += 1;
-    });
+    widget.onChanged( widget.defaultValue + 1 );
   }
 
   void _decreaseCount() {
-    setState(() {
-      if (_count > 0) {
-        _count -= 1;
-      }
-    });
+      if (widget.defaultValue > 0) {
+        widget.onChanged( widget.defaultValue - 1 );
+    }
   }
 
   @override
@@ -46,7 +36,7 @@ class _PlusMinusWidgetState extends State<PlusMinusWidget> {
           width: 100.0,
           child: Container(
             child: Text(
-              '$_label',
+              widget.name,
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -65,7 +55,7 @@ class _PlusMinusWidgetState extends State<PlusMinusWidget> {
           width: 18.0,
           child: Container(
             child: Text(
-              '$_count',
+              widget.defaultValue.toString(),
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -83,4 +73,65 @@ class _PlusMinusWidgetState extends State<PlusMinusWidget> {
       ],
     );
   }
+}
+
+
+class SerialWidget extends StatefulWidget {
+
+  final String defaultValue;
+  final ValueChanged<String> onChanged;
+
+  SerialWidget({Key key, @required this.defaultValue, @required this.onChanged})
+      : super(key: key);
+
+  _SerialWidgetState createState() => _SerialWidgetState();
+}
+
+class _SerialWidgetState extends State<SerialWidget> {
+
+  _SerialWidgetState();
+
+  void _setSerial(String newValue) {
+    widget.onChanged( newValue );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+      SizedBox(
+      width: 200.0,
+      child: Container(
+        child: Text(
+          "Serial Number: ",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    ),Container(
+      child: Flexible(
+        child: TextField(
+          textCapitalization: TextCapitalization.characters,
+          textInputAction: TextInputAction.done,
+          autocorrect: false,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white),
+          cursorColor: Colors.red,
+          decoration: InputDecoration(
+            hintText: widget.defaultValue,
+            hintStyle: TextStyle(color: Colors.white),
+          ),
+          onChanged: (text) {_setSerial(text);},
+        ),
+      ),
+    ),
+    ]);
+  }
+}
+
+bool useWhiteForeground(Color color) {
+  return 1.05 / (color.computeLuminance() + 0.05) > 4.5;
 }

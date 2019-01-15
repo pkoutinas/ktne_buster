@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Configurator {
   int _modules;
   int _strikes;
@@ -25,14 +27,71 @@ class Configurator {
     _has_stereo = false;
   }
 
-  void addLabel(bool led, String label_text){
+  void addLabel(bool led, String label_text) {
     _labels.add(new Label(led, label_text));
+  }
+
+  bool last_digit_even() {
+    RegExp _regex = new RegExp(r'.*([2|4|6|8|0])$');
+    return _regex.hasMatch(_serial);
   }
 
   int get modules => _modules;
 
   set modules(int value) {
     _modules = value;
+  }
+
+Widget moduleWidget() {
+    //return new PlusMinusWidget('Modules: ',_modules);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        SizedBox(
+          width: 100.0,
+          child: Container(
+            child: Text(
+              'Modules: ',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(0.0),
+          child: IconButton(
+            icon: Icon(Icons.remove),
+            color: Colors.white,
+            onPressed: () {
+                (_modules > 0) ? _modules -= 1 : _modules = _modules;
+            },
+          ),
+        ),
+        SizedBox(
+          width: 18.0,
+          child: Container(
+            child: Text(
+              _modules.toString(),
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.all(0.0),
+          child: IconButton(
+            icon: Icon(Icons.add),
+            color: Colors.white,
+            onPressed: () {
+              _modules += 1;
+            },
+          ),
+        ),
+      ],
+    );
   }
 
   int get strikes => _strikes;
@@ -90,11 +149,11 @@ class Configurator {
   }
 }
 
-class Label{
+class Label {
   bool _led;
   String _label_text;
 
-  Label(bool led, String label_text){
+  Label(bool led, String label_text) {
     this._led = led;
     this._label_text = label_text;
   }
