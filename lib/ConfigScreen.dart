@@ -30,9 +30,20 @@ class _ConfigScreenState extends State<ConfigScreen> {
     });
   }
 
+  void _portChanged(String port) {
+    setState(() {
+      widget.config.togglePortValue(port);
+    });
+  }
+
+  void _labelCreated(Label newLabel) {
+    setState(() {
+      //widget.config.addLabel(newLabel);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    String _hint = 'Enter Serial Number';
     return Scaffold(
       appBar: AppBar(
         title: Text("Configuration"),
@@ -47,8 +58,18 @@ class _ConfigScreenState extends State<ConfigScreen> {
             defaultValue: widget.config.batteries,
             onChanged: _batteriesChanged),
         SerialWidget(
-            defaultValue: widget.config.serial ==""?'Enter Value':widget.config.serial,
+            defaultValue: widget.config.serial == ""
+                ? 'Enter Value'
+                : widget.config.serial,
             onChanged: _serialChanged),
+        PortWidget(defaultValue: false, onChanged: _portChanged),
+        Text("DVI: " + widget.config.getPortValue("DVI").toString()),
+        Text("Parallel: " + widget.config.getPortValue("Parallel").toString()),
+        Text("PS2: " + widget.config.getPortValue("PS2").toString()),
+        Text("RJ45: " + widget.config.getPortValue("RJ45").toString()),
+        Text("Serial: " + widget.config.getPortValue("Serial").toString()),
+        Text("Stereo: " + widget.config.getPortValue("Stereo").toString()),
+        LabelWidget(onChanged: _labelCreated)
       ]),
     );
   }

@@ -48,35 +48,29 @@ class _WiresScreenState extends State<WiresScreen> {
               child: Text('Select Colour'),
               color: currentColor,
               textColor: useWhiteForeground(currentColor)
-                  ? const Color(0xffffffff)
-                  : const Color(0xff000000),
+                  ? Colors.white//const Color(0xffffffff)
+                  : Colors.black, //const Color(0xff000000),
             ),
           ),
           Center(
             child: Text(
               'Selected Colour: ' + currentColor.value.toString(),
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          Center(
-            child: Text(
-              'Is last even? ' +
-                  (new RegExp(r'.*([2|4|6|8|0])$')
-                          .hasMatch(currentColor.value.toString()))
-                      .toString(),
-              style: TextStyle(color: Colors.white),
             ),
           ),
           Center(
             child: Text(
               'Number of modules:  ' + widget.config.modules.toString(),
-              style: TextStyle(color: Colors.white),
             ),
           ),
           Center(
             child: Text(
               'Serial:  ' + widget.config.serial,
-              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          Center(
+            child: Text(
+              'Is last even? ' +
+                  widget.config.lastDigitEven().toString(),
             ),
           ),
         ],

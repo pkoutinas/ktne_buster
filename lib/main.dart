@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'Configurator.dart';
 import 'ConfigScreen.dart';
 import 'WiresScreen.dart';
-import 'helper.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,6 +13,7 @@ class MyApp extends StatelessWidget {
         // ignore: undefined_getter
         canvasColor: Colors.black,
         fontFamily: 'Elite',
+        textTheme: TextTheme(body1: TextStyle(color: Colors.white))
       ),
       home: new SplashScreen(),
     );
