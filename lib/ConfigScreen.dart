@@ -60,7 +60,8 @@ class _ConfigScreenState extends State<ConfigScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Configuration"),
+        backgroundColor: Colors.red,
+        title:Text("Configuration"),
       ),
       body: ListView(shrinkWrap: true, children: [
         Column(children: [
@@ -86,8 +87,8 @@ class _ConfigScreenState extends State<ConfigScreen> {
             "Stereo": widget.config.getPortValue("Stereo")
           }, onChanged: _portChanged),
         ]),
+
         Column(children: [
-          Row(children: []),
           Container(
               alignment: Alignment(-1.0, -1.0),
               padding: new EdgeInsets.only(top: 10.0, left: 20.0),

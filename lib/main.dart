@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'Configurator.dart';
 import 'ConfigScreen.dart';
 import 'WiresScreen.dart';
+import 'KeypadsScreen.dart';
+
+const Map<String, String> _games = {
+  "Wires": 'images/activities/wires.png',
+  "The Button": 'images/activities/button.png',
+  "Keypads": 'images/activities/keypads.png',
+};
 
 void main() => runApp(MyApp());
 
@@ -10,11 +17,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: new ThemeData(
-        // ignore: undefined_getter
-        canvasColor: Colors.black,
-        fontFamily: 'Elite',
-        textTheme: TextTheme(body1: TextStyle(color: Colors.white))
-      ),
+          // ignore: undefined_getter
+          canvasColor: Colors.black,
+          fontFamily: 'Elite',
+          textTheme: TextTheme(body1: TextStyle(color: Colors.white))),
       home: new SplashScreen(),
     );
   }
@@ -73,37 +79,86 @@ class CentralScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("KTNE Buster"),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
+      floatingActionButton: FloatingActionButton(
+        //RaisedButton(
+        backgroundColor: Colors.red,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16.0))),
+        child: Icon(
+          Icons.settings,
+          size: 50,
+        ), //Text('Config'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ConfigScreen(config: this.config)),
+          );
+        },
       ),
-      body: new Column(children: <Widget>[
-        Center(
-          child: RaisedButton(
-            child: Text('Config'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ConfigScreen(config: this.config)),
-              );
-            },
+      appBar: AppBar(
+          title: Image.asset(
+            'images/logo3.png',
+            fit: BoxFit.fill,
           ),
-        ),
-        Center(
-          child: RaisedButton(
-            child: Text('Wires'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => WiresScreen(config: this.config)),
-              );
-            },
-          ),
-        ),
-      ]),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.black38),
+      body: Container(
+        padding: EdgeInsets.only(top: 15.0),
+        alignment: Alignment(0, 0),
+        child: GridView(
+            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3),
+            children: [
+              GridTile(
+                  child: GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => WiresScreen(config: this.config)),
+                  );
+                },
+                child: Column(children: [
+                  Stack(alignment: Alignment(0, 1), children: <Widget>[
+                    Image.asset(_games["Wires"]),
+                    Text("Wires",style: TextStyle(color: Colors.red))
+                  ])
+                ]),
+              )),
+              GridTile(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        //  builder: (context) => ButtonScreen(config: this.config)
+                      ),);
+                    },
+                    child: Column(children: [
+                      Stack(alignment: Alignment(0, 1), children: <Widget>[
+                        Image.asset(_games["The Button"]),
+                        Text("The Button",style: TextStyle(color: Colors.red))
+                      ])
+                    ]),
+                  )),
+              GridTile(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => KeypadsScreen(config: this.config)
+                      ),);
+                    },
+                    child: Column(children: [
+                      Stack(alignment: Alignment(0, 1), children: <Widget>[
+                        Image.asset(_games["Keypads"]),
+                        Text("Keypads",style: TextStyle(color: Colors.red))
+                      ])
+                    ]),
+                  )),
+              Icon(Icons.settings, color: Colors.red),
+              Icon(Icons.settings, color: Colors.red),
+              Icon(Icons.settings, color: Colors.red),
+              Icon(Icons.settings, color: Colors.red),
+            ]),
+      ),
     );
   }
 }
