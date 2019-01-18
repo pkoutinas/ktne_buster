@@ -136,7 +136,7 @@ class _SerialWidgetState extends State<SerialWidget> {
 }
 
 class PortWidget extends StatefulWidget {
-  final bool defaultValue;
+  final Map<String, bool> defaultValue;
   final ValueChanged<String> onChanged;
 
   PortWidget({Key key, @required this.defaultValue, @required this.onChanged})
@@ -146,18 +146,10 @@ class PortWidget extends StatefulWidget {
 }
 
 class _PortWidgetState extends State<PortWidget> {
-  Map<String, bool> _portSet = {
-    "DVI": false,
-    "Parallel": false,
-    "PS2": false,
-    "RJ45": false,
-    "Serial": false,
-    "Stereo": false
-  };
 
   void _togglePort(String name) {
     widget.onChanged(name);
-    _portSet[name] = !_portSet[name];
+    widget.defaultValue[name] = !widget.defaultValue[name];
   }
 
   @override
@@ -196,7 +188,7 @@ class _PortWidgetState extends State<PortWidget> {
                               _togglePort("DVI");
                             },
                             child: Opacity(
-                                opacity: _portSet["DVI"] ? 1 : 0.3,
+                                opacity: widget.defaultValue["DVI"] ? 1 : 0.3,
                                 child: Image.asset(
                                   'images/controls/ports/dvi.png',
                                   width: 100,
@@ -208,7 +200,8 @@ class _PortWidgetState extends State<PortWidget> {
                               _togglePort("Parallel");
                             },
                             child: Opacity(
-                                opacity: _portSet["Parallel"] ? 1 : 0.3,
+                                opacity:
+                                    widget.defaultValue["Parallel"] ? 1 : 0.3,
                                 child: Image.asset(
                                   'images/controls/ports/parallel.png',
                                   width: 165,
@@ -225,7 +218,7 @@ class _PortWidgetState extends State<PortWidget> {
                               _togglePort("PS2");
                             },
                             child: Opacity(
-                                opacity: _portSet["PS2"] ? 1 : 0.34,
+                                opacity: widget.defaultValue["PS2"] ? 1 : 0.34,
                                 child: Image.asset(
                                   'images/controls/ports/ps2.png',
                                   width: 50,
@@ -237,7 +230,7 @@ class _PortWidgetState extends State<PortWidget> {
                               _togglePort("RJ45");
                             },
                             child: Opacity(
-                                opacity: _portSet["RJ45"] ? 1 : 0.3,
+                                opacity: widget.defaultValue["RJ45"] ? 1 : 0.3,
                                 child: Image.asset(
                                     'images/controls/ports/rj45.png',
                                     width: 60)))),
@@ -248,7 +241,8 @@ class _PortWidgetState extends State<PortWidget> {
                               _togglePort("Serial");
                             },
                             child: Opacity(
-                                opacity: _portSet["Serial"] ? 1 : 0.3,
+                                opacity:
+                                    widget.defaultValue["Serial"] ? 1 : 0.3,
                                 child: Image.asset(
                                   'images/controls/ports/serial.png',
                                   width: 100,
@@ -260,7 +254,8 @@ class _PortWidgetState extends State<PortWidget> {
                               _togglePort("Stereo");
                             },
                             child: Opacity(
-                                opacity: _portSet["Stereo"] ? 1 : 0.3,
+                                opacity:
+                                    widget.defaultValue["Stereo"] ? 1 : 0.3,
                                 child: Image.asset(
                                   'images/controls/ports/stereo.png',
                                   width: 30,
@@ -270,117 +265,120 @@ class _PortWidgetState extends State<PortWidget> {
   }
 }
 
-class LabelGridWidget extends StatefulWidget {
-  final ValueChanged<Label> onChanged;
-
-  LabelGridWidget({Key key, @required this.onChanged}) : super(key: key);
-
-  _LabelGridWidgetState createState() => _LabelGridWidgetState();
+bool useWhiteForeground(Color color) {
+  return 1.05 / (color.computeLuminance() + 0.05) > 4.5;
 }
 
-class _LabelGridWidgetState extends State<LabelGridWidget> {
+class LabelView extends StatelessWidget{
+  final MapEntry<String, bool> label;
+
+  LabelView({Key key,@required MapEntry<String, bool> this.label}):super(key:key);
   @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Expanded(
-            child: GridView.count(
-      crossAxisCount: 2,
-      children: <Widget>[
-        ListTile(
-          leading: Icon(Icons.map, color: Colors.white),
-          title: Text('Map', style: TextStyle(color: Colors.white)),
-        ),
-        ListTile(
-          leading: Icon(Icons.photo_album, color: Colors.white),
-          title: Text('Album', style: TextStyle(color: Colors.white)),
-        ),
-        ListTile(
-          leading: Icon(
-            Icons.phone,
-            color: Colors.white,
+  Widget build(BuildContext context ) {
+  return Column(mainAxisSize: MainAxisSize.min, children: [
+  Container(
+    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+    width: 170.0,
+    child:
+      Stack(
+        children: <Widget>[
+      Image.asset(
+          label.value ? 'images/controls/label_on.png'
+        : 'images/controls/label_off.png',
+        width: 150,
+      ),
+          Container(
+              //margin: const EdgeInsets.only(left: 58.0),
+              padding: const EdgeInsets.only(left: 73.0, top: 22.0),
+              child:
+                Text(label.key, style: TextStyle(color: Colors.white, fontSize: 20.0))
           ),
-          title: Text('Phone', style: TextStyle(color: Colors.white)),
-        ),
-      ],
-    )));
+    ],
+  ))
+  ]);
   }
 }
 
 class LabelWidget extends StatefulWidget {
-  final ValueChanged<Label> onChanged;
-  bool isSet = false;
-  String defaultValue = "Tap";
 
-  LabelWidget({Key key, @required this.onChanged}) : super(key: key);
+  LabelWidget({Key key}) : super(key: key);
 
   _LabelWidgetState createState() => _LabelWidgetState();
 }
 
 class _LabelWidgetState extends State<LabelWidget> {
+  bool _isSet = false;
+  String _defaultValue = "___";
 
   void _toggleImage() {
-    widget.isSet = !widget.isSet;
+    _isSet = !_isSet;
   }
+
   void _setLabelValue(String value) {
-    widget.defaultValue = value;
+    _defaultValue = value;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-        width: 170.0,
-        child: Stack(children: [
-          GestureDetector(
-              onTap: () {
-                setState(() {
-                  _toggleImage();
-                });
-              },
-              child: Image.asset(
-                widget.isSet
-                    ? 'images/controls/label_on.png'
-                    : 'images/controls/label_off.png',
-                width: 150,
-              )),
-          Container(
-              margin: const EdgeInsets.only(left: 35.0),
-              padding: const EdgeInsets.only(top: 11.0),
-              child:
-              TextField(
-              textCapitalization: TextCapitalization.characters,
-              textInputAction: TextInputAction.done,
-              maxLength: 3,
-              autocorrect: false,
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: widget.defaultValue,
-                hintStyle: widget.defaultValue == "Tap"
-                    ? TextStyle(
-                    color: Colors.grey, fontStyle: FontStyle.italic)
-                    : TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              onChanged: (text) {
-                _setLabelValue(text);
-              },
-            )),
-        ]));
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      Container(
+          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+          width: 170.0,
+          child: Stack(children: [
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _toggleImage();
+                  });
+                },
+                child: Image.asset(
+                  _isSet
+                      ? 'images/controls/label_on.png'
+                      : 'images/controls/label_off.png',
+                  width: 150,
+                )),
+            Container(
+                margin: const EdgeInsets.only(left: 58.0),
+                padding: const EdgeInsets.only(top: 11.0),
+                width: 80,
+                child: TextField(
+                  textCapitalization: TextCapitalization.characters,
+                  textInputAction: TextInputAction.done,
+                  maxLength: 3,
+                  autocorrect: false,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: _defaultValue,
+                    hintStyle: _defaultValue == "___"
+                        ? TextStyle(
+                            color: Colors.grey, fontStyle: FontStyle.italic)
+                        : TextStyle(color: Colors.white, fontSize: 10.0),
+                  ),
+                  onChanged: (text) {
+                    _setLabelValue(text);
+                  },
+                )),
+          ])),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        new FlatButton(
+          child: new Text('Back', style: TextStyle(color: Colors.red),),
+          onPressed: () {
+            setState(() {Navigator.of(context).pop({_defaultValue:_isSet});
+            });
+          },
+        ),
+        new FlatButton(
+          child: new Text('Ready', style: TextStyle(fontWeight: FontWeight.bold)),
+          onPressed: () {
+            setState(() {
+              (_defaultValue.length == 3 && _defaultValue != "___")
+                  ? Navigator.of(context).pop({_defaultValue:_isSet})
+                  : {};
+            });
+          },
+        ),
+      ])
+    ]);
   }
-}
-
-class Label {
-  bool led;
-  String labelText;
-
-  Label(bool led, String labelText) {
-    this.led = led;
-    this.labelText = labelText;
-  }
-}
-
-bool useWhiteForeground(Color color) {
-  return 1.05 / (color.computeLuminance() + 0.05) > 4.5;
 }

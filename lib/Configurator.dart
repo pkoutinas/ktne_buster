@@ -1,11 +1,10 @@
-import 'helper.dart';
 
 class Configurator {
   int strikes;
   int modules;
   int batteries;
   String serial;
-  List<Label> _labels;
+  Map<String, bool> labels;
   Map<String, bool> _ports;
 
   Configurator() {
@@ -13,7 +12,8 @@ class Configurator {
     modules = 5;
     batteries = 0;
     serial = "";
-    _labels = new List(0);
+    labels = {};
+
     _ports = {"DVI":false,"Parallel":false,"PS2":false,"RJ45":false,"Serial":false,"Stereo":false};
   }
 
@@ -29,12 +29,8 @@ class Configurator {
     _ports[name] = !_ports[name];
   }
 
-  void addLabel(Label newLabel) {
-    _labels.add(newLabel);
-  }
-
-  void createLabel(bool led, String labelText) {
-    _labels.add(new Label(led, labelText));
+  void addLabel(Map<String, bool> entry) {
+    labels.addAll(entry);
   }
 }
 
