@@ -46,17 +46,16 @@ class _KeypadsScreenState extends State<KeypadsScreen> {
         _listF.containsAll(_candidateList)?_finalSequence = _sortList( _listF.toList(),_candidateList):
         _finalSequence=[];
       }
-  }
+        }
 
   void _refreshKeys(int index){
     List<String> _tempEligibleKeys = new List();
-
-    _listA.contains(_keysEligible.keys.elementAt(index))?_tempEligibleKeys.addAll(_listA):{};
-    _listB.contains(_keysEligible.keys.elementAt(index))?_tempEligibleKeys.addAll(_listB):{};
-    _listC.contains(_keysEligible.keys.elementAt(index))?_tempEligibleKeys.addAll(_listC):{};
-    _listD.contains(_keysEligible.keys.elementAt(index))?_tempEligibleKeys.addAll(_listD):{};
-    _listE.contains(_keysEligible.keys.elementAt(index))?_tempEligibleKeys.addAll(_listE):{};
-    _listF.contains(_keysEligible.keys.elementAt(index))?_tempEligibleKeys.addAll(_listF):{};
+    if (_listA.containsAll(_candidateList)){_tempEligibleKeys.addAll(_listA);}
+    if (_listB.containsAll(_candidateList)){_tempEligibleKeys.addAll(_listB);}
+    if (_listC.containsAll(_candidateList)){_tempEligibleKeys.addAll(_listC);}
+    if (_listD.containsAll(_candidateList)){_tempEligibleKeys.addAll(_listD);}
+    if (_listE.containsAll(_candidateList)){_tempEligibleKeys.addAll(_listE);}
+    if (_listF.containsAll(_candidateList)){_tempEligibleKeys.addAll(_listF);}
 
     for (int i=0; i<_keysEligible.length;i++){
       _tempEligibleKeys.contains(_keysEligible.keys.elementAt(i))
@@ -99,7 +98,7 @@ class _KeypadsScreenState extends State<KeypadsScreen> {
                 width: 80.0,
                 child:
               Image.asset(_finalSequence == null || _finalSequence.length<4
-                  ?_partialPath+"0_blank"+".png"
+                  ?"images/activities/Keypads/0_blank.png"
                   :_partialPath+_finalSequence.elementAt(0)+".png") //Default image if no solution found (yet!)
               ),
               Container(
@@ -117,7 +116,7 @@ class _KeypadsScreenState extends State<KeypadsScreen> {
                         width: 80.0,
                         child:
                         Image.asset(_finalSequence == null || _finalSequence.length<4
-                            ?_partialPath+"0_blank"+".png"
+                            ?"images/activities/Keypads/0_blank.png"
                             :_partialPath+_finalSequence.elementAt(1)+".png") //Default image if no solution found (yet!)
                     ),
                     Container(
@@ -135,7 +134,7 @@ class _KeypadsScreenState extends State<KeypadsScreen> {
                         width: 80.0,
                         child:
                         Image.asset(_finalSequence == null || _finalSequence.length<4
-                            ?_partialPath+"0_blank"+".png"
+                            ?"images/activities/Keypads/0_blank.png"
                             :_partialPath+_finalSequence.elementAt(2)+".png") //Default image if no solution found (yet!)
                     ),
                     Container(
@@ -153,7 +152,7 @@ class _KeypadsScreenState extends State<KeypadsScreen> {
                         width: 80.0,
                         child:
                         Image.asset(_finalSequence == null || _finalSequence.length<4
-                            ?_partialPath+"0_blank"+".png"
+                            ?"images/activities/Keypads/0_blank.png"
                             :_partialPath+_finalSequence.elementAt(3)+".png") //Default image if no solution found (yet!)
                     ),
                     Container(
