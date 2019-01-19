@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Configurator.dart';
 import 'ConfigScreen.dart';
 import 'WiresScreen.dart';
+import 'ButtonScreen.dart';
 import 'KeypadsScreen.dart';
 
 const Map<String, String> _games = {
@@ -129,7 +130,7 @@ class CentralScreen extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                        //  builder: (context) => ButtonScreen(config: this.config)
+                          builder: (context) => ButtonScreen(config: this.config)
                       ),);
                     },
                     child: Column(children: [
