@@ -19,6 +19,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: new ThemeData(
           // ignore: undefined_getter
+          primaryColor: Colors.red,
+          primaryTextTheme: TextTheme( body2: TextStyle(color: Colors.white)),
+          hintColor: Colors.white,
           canvasColor: Colors.black,
           fontFamily: 'Elite',
           textTheme: TextTheme(body1: TextStyle(color: Colors.white))),

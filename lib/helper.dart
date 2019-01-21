@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'colour_picker.dart';
 
 class PlusMinusWidget extends StatefulWidget {
   final String name;
@@ -271,8 +272,10 @@ bool useWhiteForeground(Color color) {
 
 class LabelView extends StatelessWidget{
   final MapEntry<String, bool> label;
+  final bool fullSize;
 
-  LabelView({Key key,@required MapEntry<String, bool> this.label}):super(key:key);
+  LabelView({Key key, @required this.label, @required this.fullSize}):super(key:key);
+
   @override
   Widget build(BuildContext context ) {
   return Column(mainAxisSize: MainAxisSize.min, children: [
@@ -289,9 +292,9 @@ class LabelView extends StatelessWidget{
       ),
           Container(
               //margin: const EdgeInsets.only(left: 58.0),
-              padding: const EdgeInsets.only(left: 73.0, top: 22.0),
+              padding: EdgeInsets.only(left: fullSize?73.0:55.0, top: fullSize?22.0:16.0),
               child:
-                Text(label.key, style: TextStyle(color: Colors.white, fontSize: 20.0))
+                Text(label.key, style: TextStyle(color: Colors.white, fontSize: fullSize?20.0:16.0))
           ),
     ],
   ))
@@ -320,7 +323,9 @@ class _LabelWidgetState extends State<LabelWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
       Container(
           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
           width: 170.0,
@@ -381,4 +386,129 @@ class _LabelWidgetState extends State<LabelWidget> {
       ])
     ]);
   }
+}
+
+class ButtonConfig extends StatefulWidget {
+  final ValueChanged<MaterialColor> changedColour;
+  final ValueChanged<String> changedLabel;
+
+  ButtonConfig({Key key, @required this.changedColour,@required this.changedLabel}) : super(key: key);
+
+  _ButtonConfigState createState() => _ButtonConfigState();
+}
+
+class _ButtonConfigState extends State<ButtonConfig> {
+  Color changedColour = Colors.grey;
+  String _label = "label";
+
+  changeColor(Color colour) => setState(() {
+    changedColour = colour;
+    widget.changedColour(colour);
+    Navigator.of(context).pop();
+  });
+
+  setConfig(Color colour, String label) {
+    widget.changedLabel(label);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Pick the colour and label"),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                  height: 145 ,
+                  child:
+                      Container(
+                          margin: EdgeInsets.all(5),
+                          child:
+                  Stack(
+                    alignment: Alignment(0, 0),
+                    children: <Widget>[
+                      Image.asset('images/activities/Button/just_button.png', scale: 0.7),
+                      Positioned(
+                          top: 19.7,
+                          child:
+                      CircleAvatar(backgroundColor: this.changedColour,radius: 51.5,)
+                        ),
+                      Container(
+                        margin: EdgeInsets.only(left:1, top:10),
+                          child:
+                          Text(_label, style: TextStyle(fontSize: 18),)
+                      ),
+                    ],
+                  ))
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  //Text("Select:"),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                    Text('Colour'),
+                  RaisedButton(
+                    shape: CircleBorder(side: BorderSide(color: changedColour, width: 10)),
+                    elevation: 3.0,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Select a colour'),
+                            content: SingleChildScrollView(
+                              child: BlockPicker(
+                                pickerColor: changedColour,
+                                onColorChanged: changeColor,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text(''),
+                  ),
+                ]
+              ),
+                  DropdownButton(
+                    items:  <String>['ABORT', 'DETONATE', 'HOLD'].map((String ddValue) {
+                      return new DropdownMenuItem<String>(
+                        value: ddValue,
+                        child: new Text(ddValue, style: TextStyle(color: Colors.white)),
+                      );
+                    }).toList(),
+                    hint: Text(_label),
+                    onChanged: (String newLabel){
+                      setState(() {
+                        _label = newLabel;
+                        setConfig(changedColour, _label);
+                      });
+                    },
+                  )
+                ]
+              )
+            ],
+          ),
+        ]);
+  }
+}
+
+String getColourName(MaterialColor colourValue){
+
+  if (colourValue == Colors.red){
+    return "red";
+  }else if (colourValue == Colors.blue){
+    return "blue";
+  }else if (colourValue == Colors.yellow){
+    return "yellow";
+  }else if (colourValue == Colors.white){
+    return "white";
+  }else if (colourValue == Colors.black){
+    return "black";
+  }else
+    return ""; //Should catch this error more elegantly
 }

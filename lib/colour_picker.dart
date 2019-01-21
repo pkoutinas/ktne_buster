@@ -5,7 +5,7 @@ const List<Color> _defaultColors = [
   Colors.red,
   Colors.blue,
   Colors.yellow,
-  Colors.grey,
+  Colors.white,
   Colors.black,
 ];
 
@@ -55,6 +55,7 @@ class BlockPicker extends StatefulWidget {
       margin: EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50.0),
+        border: Border.all(color: Colors.grey),
         color: color,
         boxShadow: [
           BoxShadow(

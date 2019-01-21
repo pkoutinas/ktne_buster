@@ -32,5 +32,12 @@ class Configurator {
   void addLabel(Map<String, bool> entry) {
     labels.addAll(entry);
   }
+
+  bool getLabel (String label, bool led){
+    return labels.containsKey(label) && labels[label] == led
+        ? true
+        : false;
+  }
 }
+
 

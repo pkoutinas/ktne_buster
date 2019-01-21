@@ -29,6 +29,7 @@ flutter:
   assets:
     - images/
     - images/activities/
+    - images/activities/Button/
     - images/activities/Keypads/
     - images/controls/
     - images/controls/dirty_page/

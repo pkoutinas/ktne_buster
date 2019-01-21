@@ -101,7 +101,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               children: [
             Container(
                 margin: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-                padding: EdgeInsets.only(top: 0.0, left: 10.0, right: 10.0, bottom: 20),
+                padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0, bottom: 20),
                 decoration:
                     BoxDecoration(border: Border.all(color: Colors.white)),
                 child: GridView.builder(
@@ -119,7 +119,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                         Container(
                       margin: EdgeInsets.only(top:18.0),
                         child:
-                        LabelView(label: MapEntry(key, val))
+                        LabelView(label: MapEntry(key, val), fullSize: true)
                     ));
                     },
                 )),
