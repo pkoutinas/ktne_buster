@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.red,
           primaryTextTheme: TextTheme( body2: TextStyle(color: Colors.white)),
           hintColor: Colors.white,
-          canvasColor: Colors.black,
+          canvasColor: Colors.grey[900],
           fontFamily: 'Elite',
           textTheme: TextTheme(body1: TextStyle(color: Colors.white))),
       home: new SplashScreen(),

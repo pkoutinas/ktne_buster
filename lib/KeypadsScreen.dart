@@ -116,7 +116,7 @@ class _KeypadsScreenState extends State<KeypadsScreen> {
                         width: 80.0,
                         child:
                         Image.asset(_finalSequence == null || _finalSequence.length<4
-                            ?"images/activities/Keypads/0_blank.png"
+                            ?_partialPath+"0_blank.png"
                             :_partialPath+_finalSequence.elementAt(1)+".png") //Default image if no solution found (yet!)
                     ),
                     Container(

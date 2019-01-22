@@ -398,12 +398,15 @@ class ButtonConfig extends StatefulWidget {
 }
 
 class _ButtonConfigState extends State<ButtonConfig> {
-  Color changedColour = Colors.grey;
+  MaterialColor changedColour = Colors.grey;
   String _label = "label";
 
   changeColor(Color colour) => setState(() {
-    changedColour = colour;
-    widget.changedColour(colour);
+    debugPrint("colour: "+colour.toString());
+    changedColour = MaterialColor(colour.value,{1:colour});
+    debugPrint("colour2: "+colour.toString());
+    widget.changedColour(MaterialColor(colour.value,{1:colour}) );
+    debugPrint("colour3: "+colour.toString());
     Navigator.of(context).pop();
   });
 
@@ -437,8 +440,11 @@ class _ButtonConfigState extends State<ButtonConfig> {
                       Container(
                         margin: EdgeInsets.only(left:1, top:10),
                           child:
-                          Text(_label, style: TextStyle(fontSize: 18),)
-                      ),
+                          Text(_label, style: TextStyle(fontSize: 18,
+                            color: useWhiteForeground(this.changedColour)
+                              ? Colors.white
+                                : Colors.black),
+                      )),
                     ],
                   ))
               ),
