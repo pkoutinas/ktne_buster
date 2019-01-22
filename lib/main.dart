@@ -4,11 +4,13 @@ import 'ConfigScreen.dart';
 import 'WiresScreen.dart';
 import 'ButtonScreen.dart';
 import 'KeypadsScreen.dart';
+import 'SimonScreen.dart';
 
 const Map<String, String> _games = {
   "Wires": 'images/activities/wires.png',
   "The Button": 'images/activities/button.png',
   "Keypads": 'images/activities/keypads.png',
+  "Simon": 'images/activities/simon.png',
 };
 
 void main() => runApp(MyApp());
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
           primaryTextTheme: TextTheme( body2: TextStyle(color: Colors.white)),
           hintColor: Colors.white,
           canvasColor: Colors.grey[900],
+          cardColor: Colors.red,
           fontFamily: 'Elite',
           textTheme: TextTheme(body1: TextStyle(color: Colors.white))),
       home: new SplashScreen(),
@@ -49,7 +52,7 @@ class SplashScreen extends StatelessWidget {
                     'images/logo.png',
                     fit: BoxFit.fill,
                   ),
-                  new RaisedButton(
+                  new FlatButton(
                       key: null,
                       onPressed: () {
                         Navigator.push(
@@ -60,7 +63,7 @@ class SplashScreen extends StatelessWidget {
                         );
                       },
                       padding: const EdgeInsets.all(32.0),
-                      color: const Color(0xFF000000),
+                      color: Colors.grey[900],
                       child: new Text(
                         "START",
                         style: new TextStyle(
@@ -91,7 +94,7 @@ class CentralScreen extends StatelessWidget {
         child: Icon(
           Icons.settings,
           size: 50,
-        ), //Text('Config'),
+        ),
         onPressed: () {
           Navigator.push(
             context,
@@ -101,13 +104,14 @@ class CentralScreen extends StatelessWidget {
         },
       ),
       appBar: AppBar(
-          title: Image.asset(
+          title:  Image.asset(
             'images/logo3.png',
             fit: BoxFit.fill,
           ),
           centerTitle: true,
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.black38),
+          backgroundColor: Colors.grey[900]
+      ),
       body: Container(
         padding: EdgeInsets.only(top: 15.0),
         alignment: Alignment(0, 0),
@@ -154,6 +158,20 @@ class CentralScreen extends StatelessWidget {
                       Stack(alignment: Alignment(0, 1), children: <Widget>[
                         Image.asset(_games["Keypads"]),
                         Text("Keypads",style: TextStyle(color: Colors.red))
+                      ])
+                    ]),
+                  )),
+              GridTile(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => SimonScreen(config: this.config)
+                      ),);
+                    },
+                    child: Column(children: [
+                      Stack(alignment: Alignment(0, 1), children: <Widget>[
+                        Image.asset(_games["Simon"]),
+                        Text("Simon",style: TextStyle(color: Colors.red))
                       ])
                     ]),
                   )),

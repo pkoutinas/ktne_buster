@@ -270,6 +270,22 @@ bool useWhiteForeground(Color color) {
   return 1.05 / (color.computeLuminance() + 0.05) > 4.5;
 }
 
+String getColourName(MaterialColor colourValue){
+
+  if (colourValue == Colors.red){
+    return "red";
+  }else if (colourValue == Colors.blue){
+    return "blue";
+  }else if (colourValue == Colors.yellow){
+    return "yellow";
+  }else if (colourValue == Colors.white){
+    return "white";
+  }else if (colourValue == Colors.black){
+    return "black";
+  }else
+    return ""; //Should catch this error more elegantly
+}
+
 class LabelView extends StatelessWidget{
   final MapEntry<String, bool> label;
   final bool fullSize;
@@ -503,18 +519,69 @@ class _ButtonConfigState extends State<ButtonConfig> {
   }
 }
 
-String getColourName(MaterialColor colourValue){
 
-  if (colourValue == Colors.red){
-    return "red";
-  }else if (colourValue == Colors.blue){
-    return "blue";
-  }else if (colourValue == Colors.yellow){
-    return "yellow";
-  }else if (colourValue == Colors.white){
-    return "white";
-  }else if (colourValue == Colors.black){
-    return "black";
-  }else
-    return ""; //Should catch this error more elegantly
+class StrikerWidget extends StatefulWidget {
+  final int defaultValue;
+  final ValueChanged<int> onChanged;
+
+  StrikerWidget(
+      {Key key,
+        @required this.defaultValue,
+        @required this.onChanged})
+      : super(key: key);
+
+  _StrikerWidgetState createState() => _StrikerWidgetState();
+}
+
+class _StrikerWidgetState extends State<StrikerWidget> {
+
+  void _increaseCount() {
+    widget.onChanged((widget.defaultValue + 1) %4);
+  }
+
+  void _resetCount() {
+    widget.onChanged(0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        SizedBox(
+          width: 60.0,
+          height: 50,
+          child: GestureDetector(
+            onTap: _increaseCount,
+            onLongPress: _resetCount,
+            child:
+            Container(
+            decoration: ShapeDecoration(shape: Border.all(color: Colors.red)),
+            alignment: Alignment(0, -1),
+            padding: EdgeInsets.only(top:7),
+            child:
+              Column(children: <Widget>[
+              Text("Strikes",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10
+              ),
+            ),Container(
+                padding: EdgeInsets.only(top:5,left:4,right:4),
+                child:Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Text("X",style: TextStyle(fontSize: 20, color: widget.defaultValue>=1?Colors.red:Colors.grey)),
+                    Text("X",style: TextStyle(fontSize: 20, color: widget.defaultValue>=2?Colors.red:Colors.grey)),
+                    Text("X",style: TextStyle(fontSize: 20, color: widget.defaultValue>=3?Colors.red:Colors.grey)),
+                  ]),
+              ),
+              ]),
+          ),
+        ),
+        )],
+    );
+  }
 }
