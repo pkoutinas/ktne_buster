@@ -80,9 +80,10 @@ class _PlusMinusWidgetState extends State<PlusMinusWidget> {
 
 class SerialWidget extends StatefulWidget {
   final String defaultValue;
+  final Color defaultColour;
   final ValueChanged<String> onChanged;
 
-  SerialWidget({Key key, @required this.defaultValue, @required this.onChanged})
+  SerialWidget({Key key, @required this.defaultValue, @required this.onChanged, this.defaultColour=Colors.white})
       : super(key: key);
 
   _SerialWidgetState createState() => _SerialWidgetState();
@@ -116,7 +117,7 @@ class _SerialWidgetState extends State<SerialWidget> {
                     textInputAction: TextInputAction.done,
                     autocorrect: false,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: widget.defaultColour),
                     decoration: InputDecoration(
                       hintText: widget.defaultValue,
                       hintStyle: widget.defaultValue == "Enter Value"

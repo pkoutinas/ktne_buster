@@ -21,6 +21,10 @@ class Configurator {
     return RegExp(r'.*([2|4|6|8|0])$').hasMatch(serial);
   }
 
+  bool hasVowel() {
+    return RegExp(r'[aeiouy]').hasMatch(serial);
+  }
+
   bool getPortValue (String name){
     return _ports[name];
   }
