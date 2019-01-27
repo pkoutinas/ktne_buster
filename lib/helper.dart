@@ -520,7 +520,6 @@ class _ButtonConfigState extends State<ButtonConfig> {
   }
 }
 
-
 class StrikerWidget extends StatefulWidget {
   final int defaultValue;
   final ValueChanged<int> onChanged;
@@ -583,6 +582,47 @@ class _StrikerWidgetState extends State<StrikerWidget> {
           ),
         ),
         )],
+    );
+  }
+}
+
+class SequenceWidget extends StatefulWidget {
+  final List<Color> sequence;
+
+  SequenceWidget({Key key, @required this.sequence}) : super(key: key);
+
+  _SequenceWidgetState createState() => _SequenceWidgetState();
+}
+
+class _SequenceWidgetState extends State<SequenceWidget> {
+
+  Widget _colourBox (Color newColour){
+    return SizedBox(
+        width: 40.0,
+        child:
+        Container(
+          color: newColour,
+        )
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ScrollController _scrollController = new ScrollController(); // TODO: Should find a way to make it scroll to last item
+
+    return Container(
+      height: 40,
+        width: 240,
+        child: new ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            controller: _scrollController,
+            physics: BouncingScrollPhysics(),
+            itemCount: widget.sequence.length,
+            itemBuilder: (BuildContext context, int index) {
+              return _colourBox(widget.sequence[index]);
+            }
+        )
     );
   }
 }

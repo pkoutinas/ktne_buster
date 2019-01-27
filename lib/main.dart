@@ -5,12 +5,14 @@ import 'WiresScreen.dart';
 import 'ButtonScreen.dart';
 import 'KeypadsScreen.dart';
 import 'SimonScreen.dart';
+import 'WhosFirstScreen.dart';
 
 const Map<String, String> _games = {
   "Wires": 'images/activities/wires.png',
   "The Button": 'images/activities/button.png',
   "Keypads": 'images/activities/keypads.png',
   "Simon": 'images/activities/simon.png',
+  "Who's First": 'images/activities/whosfirst.png',
 };
 
 void main() => runApp(MyApp());
@@ -172,6 +174,20 @@ class CentralScreen extends StatelessWidget {
                       Stack(alignment: Alignment(0, 1), children: <Widget>[
                         Image.asset(_games["Simon"]),
                         Text("Simon",style: TextStyle(color: Colors.red))
+                      ])
+                    ]),
+                  )),
+              GridTile(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => WhosFirstScreen(config: this.config)
+                      ),);
+                    },
+                    child: Column(children: [
+                      Stack(alignment: Alignment(0, 1), children: <Widget>[
+                        Image.asset(_games["Who's First"]),
+                        Text("Who's First",style: TextStyle(color: Colors.red))
                       ])
                     ]),
                   )),

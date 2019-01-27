@@ -12,8 +12,8 @@ class SimonScreen extends StatefulWidget {
 }
 
 class _SimonScreenState extends State<SimonScreen> {
-  List<Color> flash_sequence = new List();
-  List<Color> tap_sequence = new List();
+  List<Color> flashSequence = new List();
+  List<Color> tapSequence = new List();
 
   void _setStrikes(int newStrikes){
     setState(() {
@@ -28,13 +28,17 @@ class _SimonScreenState extends State<SimonScreen> {
   }
 
   void _resetProgress(){
-    flash_sequence.clear();
-    tap_sequence.clear();
+    setState(() {
+      flashSequence.clear();
+      tapSequence.clear();
+    });
   }
 
   void _addColour(Color newColour){
-    flash_sequence.add(newColour);
-    tap_sequence.add(_lookupTapColour(newColour));
+    setState(() {
+      flashSequence.add(newColour);
+      tapSequence.add(_lookupTapColour(newColour));
+    });
   }
 
   Color _lookupTapColour(Color newColour) {
@@ -75,7 +79,8 @@ class _SimonScreenState extends State<SimonScreen> {
         if (newColour.value == Colors.yellow.value) {
           return Colors.blue;
         }
-      } else { // No vowels in serial number
+      }
+    } else { // No vowels in serial number
         if (widget.config.strikes == 0) {
           if (newColour.value == Colors.red.value) {
             return Colors.blue;
@@ -115,7 +120,7 @@ class _SimonScreenState extends State<SimonScreen> {
         }
         return null;
       }
-    }
+
   }
 
   @override
@@ -181,21 +186,77 @@ class _SimonScreenState extends State<SimonScreen> {
               ],),
               Row(
                 children: <Widget>[
-                  Text("Tap on last flashing colour",softWrap: true,),
-                  Text("Four coloured, rotated, squares here with return of colour"),
-                ],
+                  SizedBox(width: 100, child:
+                    Container(margin: EdgeInsets.only(left: 10, ) ,child:
+                      Text("Tap on last flashing colour",softWrap: true,),
+                  ),),
+                  Container(
+                      margin: EdgeInsets.all(50),
+                      child:
+                          RotationTransition(
+                              turns: new AlwaysStoppedAnimation(45 / 360),
+                              child:
+                          //Transform.rotate(angle: 0.5 , child:
+                      Column(children: <Widget>[
+                        Row(children: <Widget>[
+                          Container(
+                            child:
+                            SizedBox(width: 80, height: 80,child:
+                                GestureDetector(
+                                    onTap: (){widget.config.serial!=""? _addColour(Colors.blue):{};},
+                                    child:
+                            DecoratedBox(decoration: ShapeDecoration(shape: Border.all(), color: Colors.blue))),
+                          )),
+                          Container(
+                            child:
+                            SizedBox(width: 80, height: 80,child:
+                            GestureDetector(
+                                onTap: (){widget.config.serial!=""? _addColour(Colors.yellow):{};},
+                                child:
+                            DecoratedBox(decoration: ShapeDecoration(shape: Border.all(), color: Colors.yellow))),
+                            )),
+                        ],),
+                        Row(children: <Widget>[
+                          Container(
+                            child:
+                            SizedBox(width: 80, height: 80,child:
+                            GestureDetector(
+                                onTap: (){widget.config.serial!=""? _addColour(Colors.red):{};},
+                                child:
+                            DecoratedBox(decoration: ShapeDecoration(shape: Border.all(), color: Colors.red))),
+                            )),
+                          Container(
+                            child:
+                            SizedBox(width: 80, height: 80,child:
+                            GestureDetector(
+                                onTap: (){widget.config.serial!=""? _addColour(Colors.green):{};},
+                                child:
+                            DecoratedBox(decoration: ShapeDecoration(shape: Border.all(), color: Colors.green))),
+                            )),
+                        ],),
+                    ],)
+                  )),
+                ]),
+              Container(margin: EdgeInsets.only(top:15,bottom: 10), child:
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                 SizedBox(width: 100, child:
+                  Container(width: 50, padding: EdgeInsets.only(left: 10), child:
+                    Text("Flashing sequence: ", softWrap: true,),
+                  ),),
+                new SequenceWidget(sequence: flashSequence)
+                ]),
               ),
+              Container(margin: EdgeInsets.only(top:15,bottom: 10), child:
               Row(
                 children: <Widget>[
-                  Text("Flashing sequence: ", softWrap: true,),
-                  Text("Sequence bubbles"),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Text("Tap the following: ", softWrap: true,),
-                  Text("Sequence bubbles"),
-                ],
+                  SizedBox(width: 100, child:
+                    Container(width: 50, padding: EdgeInsets.only(left: 10) ,child:
+                      Text("Tap the following: ", softWrap: true,),
+                  ),),
+                  SequenceWidget(sequence: tapSequence)
+                ]),
               ),
 
           ],)

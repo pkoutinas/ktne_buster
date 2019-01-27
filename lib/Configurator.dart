@@ -22,7 +22,7 @@ class Configurator {
   }
 
   bool hasVowel() {
-    return RegExp(r'[aeiouy]').hasMatch(serial);
+    return RegExp(r'[AEIOUYaeiouy]').hasMatch(serial);
   }
 
   bool getPortValue (String name){
