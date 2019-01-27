@@ -626,3 +626,179 @@ class _SequenceWidgetState extends State<SequenceWidget> {
     );
   }
 }
+
+class FirstWidget extends StatefulWidget {
+  final int x;
+  final int y;
+  final List<String> labels;
+  final ValueChanged<String> pickedLabel;
+
+  FirstWidget({Key key, @required this.x, @required this.y,
+                        @required this.labels, @required this.pickedLabel})
+      :super(key: key);
+
+  _FirstWidgetState createState() => _FirstWidgetState();
+}
+
+class _FirstWidgetState extends State<FirstWidget> {
+  String _selectedLabel = "select";
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      GridView.count( //TODO: find a way to streamline the code (tile vs. coordinates)
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        childAspectRatio: 1.75,
+        padding: EdgeInsets.all(0),
+        children: <Widget>[
+          Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+              child:
+                Center(
+                  child:
+                      (widget.x ==0 && widget.y ==0 && widget.labels != null)
+                        ? DropdownButton(
+                        items: widget.labels.map((String ddValue) {
+                          return new DropdownMenuItem<String>(
+                            value: ddValue,
+                            child: new Text(ddValue, style: TextStyle(color: Colors.white)),
+                          );
+                        }).toList(),
+                        hint: Text(_selectedLabel, style: TextStyle(color: Colors.white)),
+                        onChanged: (String newLabel){
+                          setState(() {
+                            _selectedLabel = newLabel;
+                            widget.pickedLabel(newLabel);
+                          });
+                        },
+                      )
+                        : Text("Ignore", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),)
+                )
+          ),
+          Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+              child:
+              Center(
+                  child:
+                  (widget.x ==1 && widget.y ==0 && widget.labels != null)
+                      ? DropdownButton(
+                    items: widget.labels.map((String ddValue) {
+                      return new DropdownMenuItem<String>(
+                        value: ddValue,
+                        child: new Text(ddValue, style: TextStyle(color: Colors.white)),
+                      );
+                    }).toList(),
+                    hint: Text(_selectedLabel, style: TextStyle(color: Colors.white)),
+                    onChanged: (String newLabel){
+                      setState(() {
+                        _selectedLabel = newLabel;
+                        widget.pickedLabel(newLabel);
+                      });
+                    },
+                  )
+                      : Text("Ignore", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),)
+              )
+          ),
+          Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+              child:
+              Center(
+                  child:
+                  (widget.x ==0 && widget.y ==1 && widget.labels != null)
+                      ? DropdownButton(
+                    items: widget.labels.map((String ddValue) {
+                      return new DropdownMenuItem<String>(
+                        value: ddValue,
+                        child: new Text(ddValue, style: TextStyle(color: Colors.white)),
+                      );
+                    }).toList(),
+                    hint: Text(_selectedLabel, style: TextStyle(color: Colors.white)),
+                    onChanged: (String newLabel){
+                      setState(() {
+                        _selectedLabel = newLabel;
+                        widget.pickedLabel(newLabel);
+                      });
+                    },
+                  )
+                      : Text("Ignore", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),)
+              )
+          ),
+          Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+              child:
+              Center(
+                  child:
+                  (widget.x ==1 && widget.y ==1 && widget.labels != null)
+                      ? DropdownButton(
+                    items: widget.labels.map((String ddValue) {
+                      return new DropdownMenuItem<String>(
+                        value: ddValue,
+                        child: new Text(ddValue, style: TextStyle(color: Colors.white)),
+                      );
+                    }).toList(),
+                    hint: Text(_selectedLabel, style: TextStyle(color: Colors.white)),
+                    onChanged: (String newLabel){
+                      setState(() {
+                        _selectedLabel = newLabel;
+                        widget.pickedLabel(newLabel);
+                      });
+                    },
+                  )
+                      : Text("Ignore", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),)
+              )
+          ),
+          Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+              child:
+              Center(
+                  child:
+                  (widget.x ==0 && widget.y ==2 && widget.labels != null)
+                      ? DropdownButton(
+                    items: widget.labels.map((String ddValue) {
+                      return new DropdownMenuItem<String>(
+                        value: ddValue,
+                        child: new Text(ddValue, style: TextStyle(color: Colors.white)),
+                      );
+                    }).toList(),
+                    hint: Text(_selectedLabel, style: TextStyle(color: Colors.white)),
+                    onChanged: (String newLabel){
+                      setState(() {
+                        _selectedLabel = newLabel;
+                        widget.pickedLabel(newLabel);
+                      });
+                    },
+                  )
+                      : Text("Ignore", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),)
+              )
+          ),
+          Container(
+              decoration: BoxDecoration(border: Border.all(color: Colors.white)),
+              child:
+              Center(
+                  child:
+                  (widget.x ==1 && widget.y ==2 && widget.labels != null)
+                      ? DropdownButton(
+                    items: widget.labels.map((String ddValue) {
+                      return new DropdownMenuItem<String>(
+                        value: ddValue,
+                        child: new Text(ddValue, style: TextStyle(color: Colors.white)),
+                      );
+                    }).toList(),
+                    hint: Text(_selectedLabel, style: TextStyle(color: Colors.white)),
+                    onChanged: (String newLabel){
+                      setState(() {
+                        _selectedLabel = newLabel;
+                        widget.pickedLabel(newLabel);
+                      });
+                    },
+                  )
+                      : Text("Ignore", style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),)
+              )
+          ),
+      ])
+    ])
+    ;
+  }
+}
