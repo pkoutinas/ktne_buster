@@ -6,6 +6,7 @@ import 'ButtonScreen.dart';
 import 'KeypadsScreen.dart';
 import 'SimonScreen.dart';
 import 'WhosFirstScreen.dart';
+import 'MemoryScreen.dart';
 
 const Map<String, String> _games = {
   "Wires": 'images/activities/wires.png',
@@ -13,6 +14,7 @@ const Map<String, String> _games = {
   "Keypads": 'images/activities/keypads.png',
   "Simon": 'images/activities/simon.png',
   "Who's First": 'images/activities/whosfirst.png',
+  "Memory": 'images/activities/memory.png',
 };
 
 void main() => runApp(MyApp());
@@ -191,7 +193,20 @@ class CentralScreen extends StatelessWidget {
                       ])
                     ]),
                   )),
-              Icon(Icons.settings, color: Colors.red),
+              GridTile(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => MemoryScreen(config: this.config)
+                      ),);
+                    },
+                    child: Column(children: [
+                      Stack(alignment: Alignment(0, 1), children: <Widget>[
+                        Image.asset(_games["Memory"]),
+                        Text("Memory",style: TextStyle(color: Colors.red))
+                      ])
+                    ]),
+                  )),
               Icon(Icons.settings, color: Colors.red),
               Icon(Icons.settings, color: Colors.red),
               Icon(Icons.settings, color: Colors.red),
