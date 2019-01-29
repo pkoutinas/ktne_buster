@@ -736,3 +736,82 @@ class _FirstWidgetState extends State<FirstWidget> {
     ;
   }
 }
+
+class SelectorWidget extends StatefulWidget {
+  final ValueChanged<String> selectedItem;
+//  final List<String> _inputList = ["1","2","3","4"];
+  SelectorWidget({Key key, @required this.selectedItem}) : super(key: key);
+
+  _SelectorWidgetState createState() => _SelectorWidgetState();
+}
+
+class _SelectorWidgetState extends State<SelectorWidget> {
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+        height: 52,
+        width: 230,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            GestureDetector( // TODO: Could a builder be used to generate the buttons from the input list?
+              onTap: (){
+                widget.selectedItem("1");
+                //          Navigator.of(context).pop();
+              },
+              child:
+              Container(
+                padding: EdgeInsets.all(17),
+                decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                child:
+                Text("1", style: TextStyle(fontSize: 22, color: Colors.black),),
+              ),
+            ),
+            GestureDetector( // TODO: Could a builder be used to generate the buttons from the input list?
+              onTap: (){
+                widget.selectedItem("2");
+                //          Navigator.of(context).pop();
+              },
+              child:
+              Container(
+                padding: EdgeInsets.all(17),
+                decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                child:
+                Text("2", style: TextStyle(fontSize: 22, color: Colors.black),),
+              ),
+            ),
+            GestureDetector( // TODO: Could a builder be used to generate the buttons from the input list?
+              onTap: (){
+                widget.selectedItem("3");
+                //          Navigator.of(context).pop();
+              },
+              child:
+              Container(
+                padding: EdgeInsets.all(17),
+                decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                child:
+                Text("3", style: TextStyle(fontSize: 22, color: Colors.black),),
+              ),
+            ),
+            GestureDetector( // TODO: Could a builder be used to generate the buttons from the input list?
+              onTap: (){
+                widget.selectedItem("4");
+                //          Navigator.of(context).pop();
+              },
+              child:
+              Container(
+                padding: EdgeInsets.all(17),
+                decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+                child:
+                Text("4", style: TextStyle(fontSize: 22, color: Colors.black),),
+              ),
+            ),
+          ],
+        )
+    );
+  }
+}
