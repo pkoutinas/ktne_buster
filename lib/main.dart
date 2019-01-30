@@ -7,6 +7,7 @@ import 'KeypadsScreen.dart';
 import 'SimonScreen.dart';
 import 'WhosFirstScreen.dart';
 import 'MemoryScreen.dart';
+import 'MorseCodeScreen.dart';
 
 const Map<String, String> _games = {
   "Wires": 'images/activities/wires.png',
@@ -15,6 +16,7 @@ const Map<String, String> _games = {
   "Simon": 'images/activities/simon.png',
   "Who's First": 'images/activities/whosfirst.png',
   "Memory": 'images/activities/memory.png',
+  "Morse Code": 'images/activities/morse.png',
 };
 
 void main() => runApp(MyApp());
@@ -204,6 +206,20 @@ class CentralScreen extends StatelessWidget {
                       Stack(alignment: Alignment(0, 1), children: <Widget>[
                         Image.asset(_games["Memory"]),
                         Text("Memory",style: TextStyle(color: Colors.red))
+                      ])
+                    ]),
+                  )),
+              GridTile(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => MorseCodeScreen(config: this.config)
+                      ),);
+                    },
+                    child: Column(children: [
+                      Stack(alignment: Alignment(0, 1), children: <Widget>[
+                        Image.asset(_games["Morse Code"]),
+                        Text("Morse Code",style: TextStyle(color: Colors.red))
                       ])
                     ]),
                   )),
