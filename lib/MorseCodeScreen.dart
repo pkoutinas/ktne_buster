@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'Configurator.dart';
-import 'helper.dart';
 
 class MorseCodeScreen extends StatefulWidget {
   final Configurator config;
@@ -25,45 +24,97 @@ class _MorseCodeScreenState extends State<MorseCodeScreen> {
         [false,false,false]: "o", [true,false,true]:"r", [true,true,true]:"s",
         [false]:"t", [true,true,true,false]:"v", [false,true,true,false]:"x" };
   int _tapCounter = 0;
-  List<bool> _tapGroup1 = new List();
-  List<bool> _tapGroup2 = new List();
-  List<bool> _tapGroup3 = new List();
-  List<bool> _tapGroup4 = new List();
-  List<String> _optGroup1 = new List();
-  List<String> _optGroup2 = new List();
-  List<String> _optGroup3 = new List();
-  List<String> _optGroup4 = new List();
+  List<bool> _tapList = new List();
+  Set<String> _possible = new Set();
+  String _frequency = "0.000 MHz";
+  String _likelyAnswer = "";
+  String _certainty = "";
+  List<String> _displayTaps = new List();
 
   void _storeTaps(bool _tap){
-    (_tap)?debugPrint("short"):debugPrint("long");
-    _tapCounter += 1;
-    (_tapCounter>=4)?_tapGroup4.add(_tap):{};
-    (_tapCounter>=3)?_tapGroup3.add(_tap):{};
-    (_tapCounter>=2)?_tapGroup2.add(_tap):{};
-    (_tapCounter>=1)?_tapGroup1.add(_tap):{};
+    //(_tap)?debugPrint("short"):debugPrint("long");
+    _tapList.add(_tap);
+    if(_displayTaps.length<10) {
+      _displayTaps.add((_tap) ? ". " : "_ ");
+    } else {
+      _displayTaps.removeAt(0);
+      _displayTaps.add((_tap) ? ". " : "_ ");
+    }
     _processTaps();
+    _tapCounter += 1;
   }
 
   void _processTaps(){
-    List<bool> len1, len2, len3, len4;
+    List<String> _options = new List();
+    String _temp;
 
     setState(() {
-      if(_tapCounter>=4){       //At least 4 taps in each group
-        len1 = [_tapGroup1[_tapCounter-1]];
-        len2 = [_tapGroup1[_tapCounter-2],_tapGroup1[_tapCounter-1]];
-        len3 = [_tapGroup1[_tapCounter-3],_tapGroup1[_tapCounter-2],_tapGroup1[_tapCounter-1]];
-        len4 = [_tapGroup1[_tapCounter-4],_tapGroup1[_tapCounter-3],_tapGroup1[_tapCounter-2],_tapGroup1[_tapCounter-1]];
+      for (int i=1;i<=4;i++){
+        if(_tapList.length>=i) {
+          _temp = _letterFound(_tapList.getRange(_tapCounter+1-i, _tapCounter+1).toList());
+          if(_temp!=""){
+            _options.add(_temp);
+          }
+        }
       }
+      if(_tapCounter<4&&_temp.length==1){
+        _possible.add(_temp);
+      }
+      //debugPrint("Options: "+_options.toString());
+
+      if(_tapCounter>=4) {
+        for (int i = 0; i < _options.length; i++) {
+          for (int j = 0; j < _possible.length; j++) {
+            _temp = _possible.elementAt(j) + _options[i];
+            (_sequenceFound(_temp))
+                ? _possible.add(_temp)
+                : {};
+          }
+        }
+      }
+      //debugPrint("Possible: "+_possible.toString());
     });
+  }
+
+  String _letterFound(List<bool> _input){
+    String _answer="";
+
+    for (int i=0; i<_alphabet.length;i++){
+      (_alphabet.keys.elementAt(i).toString()==_input.toString())
+          ? _answer = _alphabet.values.elementAt(i)
+          : {};
+    }
+    return _answer;
+  }
+
+  bool _sequenceFound(String _input){
+    int _foundCount=0;
+    int _foundIndex=-1;
+
+    for (int i=0; i<_solutions.length;i++){
+      if(_solutions.keys.elementAt(i).contains(_input)){
+        _foundCount += 1;
+        _foundIndex =i;
+      }
+    }
+    if (_input.length>=3 && _foundCount==1){
+      _certainty = (100*_input.length/_solutions.keys.elementAt(_foundIndex).length).toStringAsFixed(0);
+      _likelyAnswer = _solutions.keys.elementAt(_foundIndex) + " ("
+          +_certainty+"% certainty)";
+      _frequency = _solutions.values.elementAt(_foundIndex);
+    }
+    return (_foundCount>0)?true:false;
   }
 
   void _resetProgress(){
     setState(() {
       _tapCounter = 0;
-      _tapGroup1 = new List();
-      _tapGroup2 = new List();
-      _tapGroup3 = new List();
-      _tapGroup4 = new List();
+      _certainty = "";
+      _frequency = "0.000 MHz";
+      _likelyAnswer = "";
+      _tapList = new List();
+      _possible = new Set();
+      _displayTaps = new List();
     });
   }
 
@@ -91,12 +142,18 @@ class _MorseCodeScreenState extends State<MorseCodeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
+                Container(
+                    alignment: Alignment(0, -1),
+                    padding: EdgeInsets.only(top: 50, bottom: 50),
+                    child:
+                    Text(_frequency, style: TextStyle(fontSize: 40),)
+                ),
                 GestureDetector(
-                  onTap: (){_storeTaps(true);},
-                  onLongPress: (){_storeTaps(false);},
+                  onTap: (){(_certainty!="100")?_storeTaps(true):{};},
+                  onLongPress: (){(_certainty!="100")?_storeTaps(false):{};},
                   child:
                   Container(
                     margin: EdgeInsets.all(0),
@@ -109,7 +166,7 @@ class _MorseCodeScreenState extends State<MorseCodeScreen> {
                           Positioned(
                               top: 0,
                               child:
-                              CircleAvatar(backgroundColor: Colors.red,radius: 120,)
+                              CircleAvatar(backgroundColor: (_certainty!="100")?Colors.red:Colors.grey,radius: 120,)
                           ),
                           Container(
                               margin: EdgeInsets.only(left:0, top:0),
@@ -120,6 +177,18 @@ class _MorseCodeScreenState extends State<MorseCodeScreen> {
                           ),
                         ]),
                   )
+                ),
+                Container(
+                    alignment: Alignment(0, -1),
+                    padding: EdgeInsets.only(top: 10),
+                    child:
+                    Text(_displayTaps.toString().replaceAll(RegExp(r'\[|\,|\]'),"") )
+                ),
+                Container(
+                    alignment: Alignment(0, -1),
+                    padding: EdgeInsets.only(top: 50, bottom: 50),
+                    child:
+                    Text(_likelyAnswer)
                 ),
               ]),
         ],

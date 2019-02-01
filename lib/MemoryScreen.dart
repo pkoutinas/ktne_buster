@@ -134,9 +134,9 @@ class _MemoryScreenState extends State<MemoryScreen> {
 
   void _nextStep(){
     setState(() {
-      debugPrint("Current step: "+(_currentStep+1).toString());
-      debugPrint("Tile #"+(_taps[_currentStep].keys.toList()[0]+1).toString()+" was tapped...");
-      debugPrint("and it contained: "+_taps[_currentStep].values.toList()[0]);
+    //  debugPrint("Current step: "+(_currentStep+1).toString());
+    //  debugPrint("Tile #"+(_taps[_currentStep].keys.toList()[0]+1).toString()+" was tapped...");
+    //  debugPrint("and it contained: "+_taps[_currentStep].values.toList()[0]);
       _currentStep+=1;
       _display = "_";
       _labels = ["_","_","_","_"];

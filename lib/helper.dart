@@ -771,7 +771,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                 Text("1", style: TextStyle(fontSize: 22, color: Colors.black),),
               ),
             ),
-            GestureDetector( // TODO: Could a builder be used to generate the buttons from the input list?
+            GestureDetector(
               onTap: (){
                 widget.selectedItem("2");
                 //          Navigator.of(context).pop();
@@ -784,7 +784,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                 Text("2", style: TextStyle(fontSize: 22, color: Colors.black),),
               ),
             ),
-            GestureDetector( // TODO: Could a builder be used to generate the buttons from the input list?
+            GestureDetector(
               onTap: (){
                 widget.selectedItem("3");
                 //          Navigator.of(context).pop();
@@ -797,7 +797,7 @@ class _SelectorWidgetState extends State<SelectorWidget> {
                 Text("3", style: TextStyle(fontSize: 22, color: Colors.black),),
               ),
             ),
-            GestureDetector( // TODO: Could a builder be used to generate the buttons from the input list?
+            GestureDetector(
               onTap: (){
                 widget.selectedItem("4");
                 //          Navigator.of(context).pop();
