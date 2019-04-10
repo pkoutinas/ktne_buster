@@ -271,20 +271,21 @@ bool useWhiteForeground(Color color) {
   return 1.05 / (color.computeLuminance() + 0.05) > 4.5;
 }
 
-String getColourName(MaterialColor colourValue){
-
-  if (colourValue == Colors.red){
-    return "red";
-  }else if (colourValue == Colors.blue){
-    return "blue";
-  }else if (colourValue == Colors.yellow){
-    return "yellow";
-  }else if (colourValue == Colors.white){
-    return "white";
-  }else if (colourValue == Colors.black){
-    return "black";
-  }else
-    return ""; //Should catch this error more elegantly
+String getColourName(MaterialColor colourValue) {
+  if (colourValue != null) {
+    if (colourValue.toString() == Colors.red.toString()) {
+      return "red";
+    } else if (colourValue.toString() == Colors.blue.toString()) {
+      return "blue";
+    } else if (colourValue.toString() == Colors.yellow.toString()) {
+      return "yellow";
+    } else if (colourValue.toString() == Colors.white.toString()) {
+      return "white";
+    } else if (colourValue.toString() == Colors.black.toString()) {
+      return "black";
+    } else
+      return null; //Should catch this error more elegantly
+  }
 }
 
 class LabelView extends StatelessWidget{
@@ -498,7 +499,7 @@ class _ButtonConfigState extends State<ButtonConfig> {
                 ]
               ),
                   DropdownButton(
-                    items:  <String>['ABORT', 'DETONATE', 'HOLD'].map((String ddValue) {
+                    items:  <String>['ABORT', 'DETONATE', 'HOLD','PRESS','...'].map((String ddValue) {
                       return new DropdownMenuItem<String>(
                         value: ddValue,
                         child: new Text(ddValue, style: TextStyle(color: Colors.white)),

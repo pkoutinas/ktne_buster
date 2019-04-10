@@ -189,7 +189,7 @@ class _KeypadsScreenState extends State<KeypadsScreen> {
                     Container(
                         width: 50.0,
                         decoration: BoxDecoration(border: Border.all(
-                            color:_candidateList.contains(_keysEligible.keys.elementAt(index))?Colors.red:Colors.white,
+                            color:_candidateList.contains(_keysEligible.keys.elementAt(index))?Colors.red: (_keysEligible.values.elementAt(index)?Colors.white:Colors.grey[300]),
                             width: 1),
                         ),
                         child:
