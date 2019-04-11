@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Configurator.dart';
-import 'helper.dart';
+import 'package:ktne/uiElements/helper.dart';
 
 class ConfigScreen extends StatefulWidget {
   final Configurator config;

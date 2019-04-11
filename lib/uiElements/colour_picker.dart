@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'helper.dart';
+import 'package:ktne/uiElements/helper.dart';
 
 const List<Color> _defaultColors = [
   Colors.red,
